@@ -415,15 +415,63 @@ async function sendMessage(msg) {
 
 ---
 
-## 8. 联系方式
+## 8. 自动化测试与持续集成
 
-**后端开发者**：请根据实际情况填写  
-**API 问题反馈**：请根据实际情况填写  
-**更新日期**：2026年1月14日
+### 8.1 测试方案
+
+为避免手动启动后端和端口占用问题，已采用 **FastAPI TestClient + pytest** 方案：
+
+- **测试文件**：[tests/test_api.py](tests/test_api.py)
+- **测试覆盖**：
+  - 档案 CRUD（创建/查询，已存在时返回 400）
+  - 历史会话创建、消息写入、查询
+  - 聚合接口 `/chat_with_context`（session_id 生成、安全提醒追加）
+- **Mock 策略**：
+  - `httpx.AsyncClient` → `httpx.ASGITransport(app=...)` 使适配器内部调用 `/chat` 在同一进程路由
+  - `OpenAI().chat.completions.create` → 返回固定文本，避免外部 LLM 调用
+
+### 8.2 本地运行测试
+
+```bash
+# 激活虚拟环境（Windows）
+.venv\Scripts\activate
+
+# 运行 pytest（-q 简洁模式，-rA 显示所有测试摘要）
+pytest -q -rA
+```
+
+**最新测试结果**（2026-01-17）：
+```
+3 passed, 4 warnings in 1.51s
+
+PASSED tests/test_api.py::test_profile_crud_and_fetch
+PASSED tests/test_api.py::test_history_session_and_messages  
+PASSED tests/test_api.py::test_chat_with_context_flow_and_safety
+```
+
+### 8.3 CI 自动化
+
+已配置 GitHub Actions 工作流：[.github/workflows/pytest.yml](.github/workflows/pytest.yml)
+
+- **触发条件**：push 或 PR 到 main 分支
+- **执行环境**：Ubuntu latest + Python 3.11
+- **步骤**：
+  1. 安装依赖（`backend/requirements.txt` + pytest）
+  2. 设置 `PYTHONPATH=${{ github.workspace }}/backend`（兼容导入路径）
+  3. 运行 `pytest -q -rA`
+- **优势**：无需启动 uvicorn，消除端口抢占，适合 CI 流程
 
 ---
 
-## 9. 变更日志与问题解决记录（持续更新）
+## 9. 联系方式
+
+**后端开发者**：请根据实际情况填写  
+**API 问题反馈**：请根据实际情况填写  
+**更新日期**：2026年1月17日
+
+---
+
+## 10. 变更日志与问题解决记录（持续更新）
 
 2026-01-17
 - 任务：为前端新增代码加详尽注释；整合前端说明至文档，并更新下一步任务。
