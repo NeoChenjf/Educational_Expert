@@ -1,0 +1,11 @@
+{
+  "appid": "__REPLACE_WITH_YOUR_APPID__",
+  "projectname": "EducationalExpertMiniApp",
+  "miniprogramRoot": "./",
+  "compileType": "miniprogram",
+  "setting": {
+    "es6": true,
+    "minified": true,
+    "urlCheck": false
+  }
+}

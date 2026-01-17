@@ -1,0 +1,16 @@
+/*
+ * 页面局部样式：
+ * - messages：限制消息区域高度并允许滚动。
+ * - profile-modal：档案弹窗的定位与边距。
+ */
+.messages {
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.profile-modal {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: 24rpx;
+}

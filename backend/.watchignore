@@ -1,0 +1,15 @@
+# Uvicorn 监视排除列表
+# 这些文件的变化不会触发服务器重启
+
+# 测试文件
+test_*.py
+*_test.py
+tests/
+
+# 缓存
+__pycache__/
+*.pyc
+
+# 其他
+.git/
+.vscode/

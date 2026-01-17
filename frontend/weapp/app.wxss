@@ -1,0 +1,67 @@
+/*
+ * 全局与通用样式：
+ * - page：全局背景。
+ * - container/header：布局与标题样式。
+ * - card：卡片式容器，圆角与阴影。
+ * - row/row-between：Flex 布局辅助类。
+ * - btn/btn-secondary：主次按钮。
+ * - input：输入框样式。
+ * - message-user/assistant：用户与 AI 消息颜色区分。
+ * - loading/warn：提示样式。
+ */
+page {
+  background-color: #f7f7f7;
+}
+
+.container {
+  padding: 16rpx 24rpx;
+}
+
+.header {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24rpx;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.06);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn {
+  background-color: #ff9f43;
+  color: #fff;
+  padding: 16rpx 24rpx;
+  border-radius: 12rpx;
+}
+
+.btn-secondary {
+  background-color: #4b7bec;
+  color: #fff;
+}
+
+.input {
+  border: 2rpx solid #ddd;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  background: #fff;
+}
+
+.message-user { color: #2d98da; }
+.message-assistant { color: #20bf6b; }
+.loading { color: #999; }
+.warn { color: #e67e22; }

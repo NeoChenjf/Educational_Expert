@@ -1,0 +1,63 @@
+<!--
+  单屏页面结构：
+  - 顶部标题与控制区：模式切换、档案设置、历史加载。
+  - 消息区域：展示用户与 AI 的消息，显示加载态。
+  - 输入与操作：文本输入、发送、语音（占位）。
+  - 档案弹窗：编辑并提交昵称、生日等。
+-->
+<view class="container">
+  <view class="header">教育专家助手</view>
+
+  <!-- 控制区：模式切换与辅助操作 -->
+  <view class="card" style="margin-bottom: 24rpx;">
+    <view class="row-between" style="margin-bottom: 16rpx;">
+      <view>模式：</view>
+      <radio-group bindchange="onModeChange">
+        <label style="margin-right: 24rpx;">
+          <radio value="concise" checked="{{mode==='concise'}}"/> 简洁
+        </label>
+        <label>
+          <radio value="detailed" checked="{{mode==='detailed'}}"/> 详细
+        </label>
+      </radio-group>
+    </view>
+    <view class="row-between">
+      <button class="btn" bindtap="openProfile">档案设置</button>
+      <button class="btn btn-secondary" bindtap="loadHistory">加载历史</button>
+    </view>
+  </view>
+
+  <!-- 消息展示区：加载态与消息列表 -->
+  <view class="card" style="margin-bottom: 24rpx;">
+    <view wx:if="{{loading}}" class="loading">AI 正在思考...</view>
+    <block wx:for="{{messages}}" wx:key="index">
+      <view>
+        <text class="{{item.role==='user'?'message-user':'message-assistant'}}">{{item.role==='user'?'我':'AI'}}：</text>
+        <text>{{item.content}}</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 输入与操作区：文本输入、发送、语音占位 -->
+  <view class="card">
+    <input class="input" placeholder="请输入问题..." value="{{inputText}}" bindinput="onInput"/>
+    <view class="row-between" style="margin-top: 16rpx;">
+      <button class="btn" bindtap="sendMessage" disabled="{{loading}}">发送</button>
+      <button class="btn btn-secondary" bindtap="recordVoice">语音输入(实验)</button>
+    </view>
+    <view wx:if="{{warnText}}" class="warn" style="margin-top: 12rpx;">{{warnText}}</view>
+  </view>
+
+  <!-- 档案弹窗：轻量编辑与提交 -->
+  <view wx:if="{{showProfile}}" class="card" style="position: fixed; left: 24rpx; right: 24rpx; bottom: 24rpx;">
+    <view class="header">孩子档案</view>
+    <input class="input" placeholder="昵称" value="{{profile.nickname}}" data-key="nickname" bindinput="onProfileInput"/>
+    <input class="input" placeholder="出生日期 YYYY-MM-DD" value="{{profile.birth_date}}" data-key="birth_date" bindinput="onProfileInput" style="margin-top: 12rpx;"/>
+    <input class="input" placeholder="年级(可选)" value="{{profile.grade}}" data-key="grade" bindinput="onProfileInput" style="margin-top: 12rpx;"/>
+    <input class="input" placeholder="备注(可选)" value="{{profile.notes}}" data-key="notes" bindinput="onProfileInput" style="margin-top: 12rpx;"/>
+    <view class="row-between" style="margin-top: 16rpx;">
+      <button class="btn" bindtap="submitProfile">提交</button>
+      <button class="btn btn-secondary" bindtap="closeProfile">关闭</button>
+    </view>
+  </view>
+</view>
